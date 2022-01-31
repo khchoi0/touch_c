@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <unistd.h>
 
 int main()
 {
@@ -45,10 +44,9 @@ int main()
         for (k = 0; k < 1761; k++)
         {
             putchar(k % 80 ? b[k] : 10);
-            A += 0.00004;
-            B += 0.00002;
         }
-        usleep(30000);
+        A += 0.04;
+        B += 0.02;
     }
     return 0;
 }
