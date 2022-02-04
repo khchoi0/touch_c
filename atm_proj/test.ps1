@@ -14,8 +14,8 @@ $files = @(
 
 foreach ( $file in $files ) { if (Test-Path $file) { Remove-Item $file } }
 
-cobc -x .\atms.cob
-cobc -x .\central.cob
+gcc -o atms .\atms.c
+gcc -o central .\central.c .\sort.c
 
 Get-Content .\testcase\testcase.txt | .\atms.exe
 .\central.exe
