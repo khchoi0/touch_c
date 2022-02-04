@@ -21,10 +21,10 @@ Get-Content .\testcase\testcase.txt | .\atms.exe
 .\central.exe
 
 if ( Compare-Object (Get-Content .\updatedMaster.txt) (Get-Content .\testcase\reference_updatedMaster.txt) ) {
-	Write-Error "TESTCASE FAILED"
+	Write-Error "`n>>>>> TESTCASE FAILED`n"
 } 
 else {
-	Write-Output "TESTCASE PASSED"
+	Write-Output "`n>>>>> TESTCASE PASSED`n"
 }
 
 foreach ( $file in $files ) { if (Test-Path $file) { Remove-Item $file } }

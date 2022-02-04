@@ -10,34 +10,29 @@ int merge()
     FILE *sortedT71_Three = fopen("transSorted713.txt", "r");
     FILE *sortedTransac = fopen("transSorted.txt", "w");
 
-    char oneBuffer[50], threeBuffer[50];
-    char oneStr[20], threeStr[20];
+    char oneLineBuffer[50], threeLineBuffer[50];
+    char oneDataBuffer[20], threeDataStr[20];
     long long oneAcct, threeAcct;
     short oneTime = 99, threeTime = 99;
 
-    // printf("%d ", fgets(oneBuffer, 31, sortedT71_One) != 0);
-    // printf("%.16s ", oneBuffer);
-    // printf("%.5s \n", &oneBuffer[24]);
-    fgets(oneBuffer, 31, sortedT71_One);
-    sprintf(oneStr, "%.16s", oneBuffer);
-    oneAcct = atoll(oneStr);
-    memset(oneStr, '\0', 20);
-    sprintf(oneStr, "%.5s", &oneBuffer[24]);
-    oneAcct = (oneTime == atoi(oneStr)) ? LONG_LONG_MAX : oneAcct;
-    oneTime = atoi(oneStr);
-    memset(oneStr, '\0', 20);
+    fgets(oneLineBuffer, 31, sortedT71_One);
 
-    // printf("%d ", fgets(threeBuffer, 31, sortedT71_Three) != 0);
-    // printf("%.16s ", threeBuffer);
-    // printf("%.5s \n", &threeBuffer[24]);
-    fgets(threeBuffer, 31, sortedT71_Three);
-    sprintf(threeStr, "%.16s", threeBuffer);
-    threeAcct = atoll(threeStr);
-    memset(oneStr, '\0', 20);
-    sprintf(threeStr, "%.5s", &threeBuffer[24]);
-    threeAcct = (threeTime == atoi(threeStr)) ? LONG_LONG_MAX : threeAcct;
-    threeTime = atoi(threeStr);
-    memset(oneStr, '\0', 20);
+    sprintf(oneDataBuffer, "%.16s", oneLineBuffer);
+    oneAcct = atoll(oneDataBuffer);
+
+    sprintf(oneDataBuffer, "%.5s", &oneLineBuffer[24]);
+    oneAcct = (oneTime == atoi(oneDataBuffer) || oneAcct == 0) ? LONG_LONG_MAX : oneAcct;
+    oneTime = atoi(oneDataBuffer);
+
+    fgets(threeLineBuffer, 31, sortedT71_Three);
+
+    sprintf(threeDataStr, "%.16s", threeLineBuffer);
+    threeAcct = atoll(threeDataStr);
+
+    sprintf(threeDataStr, "%.5s", &threeLineBuffer[24]);
+    threeAcct = (threeTime == atoi(threeDataStr) || threeAcct == 0) ? LONG_LONG_MAX : threeAcct;
+    threeTime = atoi(threeDataStr);
+
     printf("\n");
 
     while (oneAcct != LONG_LONG_MAX || threeAcct != LONG_LONG_MAX)
@@ -45,48 +40,60 @@ int merge()
         if (oneAcct < threeAcct)
         {
             printf("[NUM] ONE < THREE: %lld at %d \n", oneAcct, oneTime);
-            fprintf(sortedTransac, oneBuffer);
-            fgets(oneBuffer, 31, sortedT71_One);
-            sprintf(oneStr, "%.16s", oneBuffer);
-            oneAcct = atoll(oneStr);
-            sprintf(oneStr, "%.5s", &oneBuffer[24]);
-            oneAcct = (oneTime == atoi(oneStr)) ? LONG_LONG_MAX : oneAcct;
-            oneTime = atoi(oneStr);
+            fprintf(sortedTransac, oneLineBuffer);
+
+            fgets(oneLineBuffer, 31, sortedT71_One);
+
+            sprintf(oneDataBuffer, "%.16s", oneLineBuffer);
+            oneAcct = atoll(oneDataBuffer);
+
+            sprintf(oneDataBuffer, "%.5s", &oneLineBuffer[24]);
+            oneAcct = (oneTime == atoi(oneDataBuffer)) ? LONG_LONG_MAX : oneAcct;
+            oneTime = atoi(oneDataBuffer);
         }
         else if (oneAcct > threeAcct)
         {
-            printf("[NUM] ONE < THREE: %lld at %d \n", threeAcct, threeTime);
-            fprintf(sortedTransac, threeBuffer);
-            fgets(threeBuffer, 31, sortedT71_Three);
-            sprintf(threeStr, "%.16s", threeBuffer);
-            threeAcct = atoll(threeStr);
-            sprintf(threeStr, "%.5s", &threeBuffer[24]);
-            threeAcct = (threeTime == atoi(threeStr)) ? LONG_LONG_MAX : threeAcct;
-            threeTime = atoi(threeStr);
+            printf("[NUM] ONE > THREE: %lld at %d \n", threeAcct, threeTime);
+            fprintf(sortedTransac, threeLineBuffer);
+
+            fgets(threeLineBuffer, 31, sortedT71_Three);
+
+            sprintf(threeDataStr, "%.16s", threeLineBuffer);
+            threeAcct = atoll(threeDataStr);
+
+            sprintf(threeDataStr, "%.5s", &threeLineBuffer[24]);
+            threeAcct = (threeTime == atoi(threeDataStr)) ? LONG_LONG_MAX : threeAcct;
+            threeTime = atoi(threeDataStr);
         }
         else
         {
             if (oneTime < threeTime)
             {
                 printf("[ TS] ONE < THREE: %lld at %d \n", oneAcct, oneTime);
-                fprintf(sortedTransac, oneBuffer);
-                fgets(oneBuffer, 31, sortedT71_One);
-                sprintf(oneStr, "%.16s", oneBuffer);
-                oneAcct = atoll(oneStr);
-                sprintf(oneStr, "%.5s", &oneBuffer[24]);
-                oneAcct = (oneTime == atoi(oneStr)) ? LONG_LONG_MAX : oneAcct;
-                oneTime = atoi(oneStr);
+                fprintf(sortedTransac, oneLineBuffer);
+
+                fgets(oneLineBuffer, 31, sortedT71_One);
+
+                sprintf(oneDataBuffer, "%.16s", oneLineBuffer);
+                oneAcct = atoll(oneDataBuffer);
+
+                sprintf(oneDataBuffer, "%.5s", &oneLineBuffer[24]);
+                oneAcct = (oneTime == atoi(oneDataBuffer)) ? LONG_LONG_MAX : oneAcct;
+                oneTime = atoi(oneDataBuffer);
             }
             else
             {
                 printf("[ TS] ONE > THREE: %lld at %d \n", threeAcct, threeTime);
-                fprintf(sortedTransac, threeBuffer);
-                fgets(threeBuffer, 31, sortedT71_Three);
-                sprintf(threeStr, "%.16s", threeBuffer);
-                threeAcct = atoll(threeStr);
-                sprintf(threeStr, "%.5s", &threeBuffer[24]);
-                threeAcct = (threeTime == atoi(threeStr)) ? LONG_LONG_MAX : threeAcct;
-                threeTime = atoi(threeStr);
+                fprintf(sortedTransac, threeLineBuffer);
+
+                fgets(threeLineBuffer, 31, sortedT71_Three);
+
+                sprintf(threeDataStr, "%.16s", threeLineBuffer);
+                threeAcct = atoll(threeDataStr);
+
+                sprintf(threeDataStr, "%.5s", &threeLineBuffer[24]);
+                threeAcct = (threeTime == atoi(threeDataStr)) ? LONG_LONG_MAX : threeAcct;
+                threeTime = atoi(threeDataStr);
             }
         }
     }
@@ -94,6 +101,8 @@ int merge()
     fclose(sortedT71_One);
     fclose(sortedT71_Three);
     fclose(sortedTransac);
+
+    printf("==>        MERGED: [TWO] TRANSAC FILES\n\n");
     return 1;
 }
 
@@ -102,7 +111,7 @@ int update()
     FILE *masterFile = fopen("master.txt", "r");
     FILE *updateFile = fopen("updatedMaster.txt", "w");
 
-    char masterBuffer[100], acctNumber[17], balanceSign[2], balanceStr[16];
+    char masterBuffer[100], acctNumber[17], balanceSign[2], strBalance[16];
     long double balance;
 
     while (fgets(masterBuffer, 60, masterFile))
@@ -111,14 +120,12 @@ int update()
 
         sprintf(acctNumber, "%.16s", &masterBuffer[20]);
         sprintf(balanceSign, "%.1s", &masterBuffer[42]);
-        sprintf(balanceStr, "%.15s", &masterBuffer[43]);
-        balance = atoll(balanceStr) / 100.0;
+        sprintf(strBalance, "%.15s", &masterBuffer[43]);
+        balance = atoll(strBalance) / 100.0;
         balance = (strcmp(balanceSign, "+") == 0) ? balance : 0 - balance;
 
-        // printf("=>        ACCT: %s \n", acctNumber);
-        // printf("=>        SIGN: %s \n", balanceSign);
-        // printf("=> BALANCE-STR: %s \n", balanceStr);
-        // printf("=>     BALANCE: %Lf \n\n", balance);
+        printf("=>        ACCT: %s \n", acctNumber);
+        printf("=>     BALANCE: %+016.02Lf \n\n", balance);
 
         FILE *transSFile = fopen("transSorted.txt", "r");
         char sortedTransacBuffer[50], transacAcctNumber[17], operation[2], amountStr[8];
@@ -140,6 +147,10 @@ int update()
         do
         {
             sprintf(transacAcctNumber, "%.16s", sortedTransacBuffer);
+            sprintf(operation, "%.1s", &sortedTransacBuffer[16]);
+            sprintf(amountStr, "%.7s", &sortedTransacBuffer[17]);
+            amount = atoi(amountStr) / 100.0;
+
             if (strcmp(transacAcctNumber, acctNumber) > 0)
             {
                 printf("==>        END: %s\n", sortedTransacBuffer);
@@ -149,27 +160,21 @@ int update()
             {
                 printf("=> UPDATING ON: %s", sortedTransacBuffer);
             }
-            printf("\n                %+016Lf \n", balance);
 
-            sprintf(operation, "%.1s", &sortedTransacBuffer[16]);
-            sprintf(amountStr, "%.7s", &sortedTransacBuffer[17]);
-            amount = atoi(amountStr) / 100.0;
-            printf("                %s%015lf \n", operation, amount);
+            printf("\n                %+016.02Lf \n", balance);
+            printf("                %s%015.02lf \n", operation, amount);
             printf("--------------------------------------------------\n");
 
             balance = (strcmp(operation, "D") == 0) ? balance + amount : balance - amount;
             balanceSign[0] = (balance < 0) ? '-' : '+';
-
-            printf("=>     UPDATED: %+016Lf \n\n", balance);
+            printf("=>     UPDATED: %+016.02Lf \n\n", balance);
 
         } while (fgets(sortedTransacBuffer, 31, transSFile));
 
         fclose(transSFile);
 
-        sprintf(balanceStr, "%.0Lf", balance * 100.00);
-
-        printf("[ %.42s%+016.0Lf ]\n\n", masterBuffer, balance * 100.00);
-        fprintf(updateFile, "%.42s%+016.0Lf\n", masterBuffer, balance * 100.00);
+        fprintf(updateFile, "%.42s%+016.0Lf\n", masterBuffer, balance * 100.0);
+        printf("[ %.42s%+016.0Lf ]\n\n", masterBuffer, balance * 100.0);
     }
 
     fclose(masterFile);
@@ -179,6 +184,8 @@ int update()
 
 int generateNegReport()
 {
+    printf("==================================================\n");
+
     FILE *updatedFile = fopen("updatedMaster.txt", "r");
     FILE *reportFile = fopen("negReport.txt", "w");
 
@@ -187,19 +194,15 @@ int generateNegReport()
     while (fgets(updatedBuffer, 60, updatedFile))
     {
         sprintf(balanceSign, "%.1s", &updatedBuffer[42]);
+        sprintf(acctName, "%.20s", updatedBuffer);
+        sprintf(acctNumber, "%.16s", &updatedBuffer[20]);
+        sprintf(balanceStr, "%.15s", &updatedBuffer[43]);
         if (strcmp(balanceSign, "+") == 0)
         {
             printf("=>    SKIPPED: %s", updatedBuffer);
             continue;
         }
-        else
-        {
-            printf("==>  REPORTED: %s", updatedBuffer);
-        }
-        sprintf(acctName, "%.20s", updatedBuffer);
-        sprintf(acctNumber, "%.16s", &updatedBuffer[20]);
-        sprintf(balanceStr, "%.15s", &updatedBuffer[43]);
-
+        printf("==>  REPORTED: %s", updatedBuffer);
         fprintf(reportFile, "Name: %s Account Number: %s Balance: -%s\n", acctName, acctNumber, balanceStr);
     }
 
@@ -215,16 +218,12 @@ int main()
     sort_transaction("trans713.txt", "transSorted713.txt");
 
     // merge
-    if (merge())
-    {
-        printf("           MERGED: [TWO] TRANSAC FILES\n\n");
-    };
+    merge();
 
     // update
     update();
 
-    printf("==================================================\n");
-
+    // generate negative report
     generateNegReport();
 
     printf("==================================================\n");
