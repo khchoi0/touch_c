@@ -304,6 +304,8 @@ int main()
         }
         printf("\n");
 
+        *userBalancePtr = 0; // reset content to 0
+
     } while (*userBalancePtr < 0 || chooseIfContinue() == 'Y'); // short-circuiting
 
     fclose(t71_One_File);
