@@ -283,6 +283,8 @@ int main()
 
         transacAmount = inputAmount(chosenService, userBalancePtr);
 
+        *userBalancePtr = 0; // erase content to 0
+
         printf("==> WRITTEN RECORD: \n");
 
         FILE *chosenAtmFile = (chosenAtm == 711) ? t71_One_File : t71_Three_File;
@@ -303,8 +305,6 @@ int main()
             printf("==> [ATM-%d]: %s %c %07.0lf %05d\n", chosenAtm, userAcctNumber, chosenService, transacAmount * 100.0, timeStamp);
         }
         printf("\n");
-
-        *userBalancePtr = 0; // reset content to 0
 
     } while (*userBalancePtr < 0 || chooseIfContinue() == 'Y'); // short-circuiting
 
