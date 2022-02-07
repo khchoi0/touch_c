@@ -244,6 +244,12 @@ char chooseIfContinue()
 
 int main()
 {
+    if (checkMasterFileExists() == EXIT_FAILURE)
+    {
+        printf("[ABORT]: MASTER FILE NOT FOUND\n\n");
+        return EXIT_FAILURE;
+    }
+
     FILE *t71_One_File = fopen("trans711.txt", "w");
     FILE *t71_Three_File = fopen("trans713.txt", "w");
 
@@ -258,12 +264,6 @@ int main()
 
     do
     {
-        if (checkMasterFileExists() == EXIT_FAILURE)
-        {
-            printf("[ABORT]: MASTER FILE NOT FOUND\n\n");
-            return EXIT_FAILURE;
-        }
-
         atmInitialize();
 
         chosenAtm = chooseAtm();
